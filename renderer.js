@@ -3,6 +3,7 @@
 // All of the Node.js APIs are available in this process.
 
 const chokidar = require('chokidar');
+const $ = require('jQuery');
 
 // One-liner for current directory, ignores .dotfiles
 var watcher = chokidar.watch('/home/renatofilizzola/tmp/', {
@@ -17,7 +18,7 @@ function onWatcherReady(){
 // Declare the listeners of the watcher
 watcher
 .on('add', function(path) {
-    document.getElementById('file-list').innerHTML += '<li id="'+ path + '" style="color: green">' + path + '</li>';
+    $('#file-list').append('<li id="'+ path + '" style="color: green">' + path + '</li>');
     console.log('File', path, 'has been added');
 })
 .on('addDir', function(path) {
@@ -27,8 +28,8 @@ watcher
      console.log('File', path, 'has been changed');
 })
 .on('unlink', function(path) {
-     document.getElementById(path).remove();
-     document.getElementById('file-list').innerHTML += '<li id="'+ path + '" style="color: red">' + path + '</li>';
+    $('#' + path).remove();
+     $('#file-list').append('<li id="'+ path + '" style="color: red">' + path + '</li>');
 })
 .on('unlinkDir', function(path) {
      console.log('Directory', path, 'has been removed');

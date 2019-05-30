@@ -1,0 +1,20 @@
+version: "2"
+services:
+  node:
+    image: node
+    build: .
+    container_name: node-electron
+    command: bash -c "npm install && npm start"
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    working_dir: '/app'
+    networks:
+      projetos_micro_servicos:
+        ipv4_address: 10.11.0.162
+
+networks:
+  projetos_micro_servicos:
+    external: true
