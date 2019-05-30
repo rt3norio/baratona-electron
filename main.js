@@ -7,15 +7,22 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  let win = new BrowserWindow({ width: 800, height: 600 })
+  let win = new BrowserWindow({ 
+                                width: 800, 
+                                height: 600, 
+                                show: false,
+                                backgroundColor: '#2e2c29',
+                                frame: false,
+                              })
+
   win.on('closed', () => {
     win = null
   })
-  
-  let view = new BrowserView()
-  win.setBrowserView(view)
-  view.setBounds({ x: 0, y: 0, width: 800, height: 600 })
-  view.webContents.loadURL('https://electronjs.org')
+  win.loadURL('http://google.com')
+  win.setBounds({ x: 0, y: 0, width: 800, height: 600 })
+    win.once('ready-to-show', () => {
+    win.show()
+  })
 }
 
 // This method will be called when Electron has finished
