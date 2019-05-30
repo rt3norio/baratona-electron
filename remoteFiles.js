@@ -1,7 +1,8 @@
 const remoteFileWatcher = require('remote-file-watcher');
+const ipcRenderer = require('electron').ipcRenderer;
 
 var objConfig = {
-    host: 'localhost',
+    host: '10.0.5.14',
     port: 23,
     username: 'foo',
     password: 'pass',
@@ -27,6 +28,7 @@ objRemoteFileWatcher.on('uploaded', function (objFile) {
     console.log('FILE UPLOADED:');
     document.getElementById('file-list').innerHTML += '<li id="'+ objFile.folder + '/' +objFile.fileName + '" style="color: green">FTP: ' + objFile.folder + '/' +objFile.fileName + '</li>';
     console.log(objFile);
+    printFile()
 });
 
 objRemoteFileWatcher.on('deleted', function (objFile) {
@@ -40,3 +42,9 @@ objRemoteFileWatcher.on('error', function (strServername, error) {
     console.log('ERROR: ' + strServername);
     console.log(error);
 });
+
+function printFile () {
+    ipcRenderer.send('print', 'https://raw.githubusercontent.com/rt3norio/baratona-electron/master/README.md');
+    htmlContent = document.getElementById(path).innerHTML;
+    document.getElementById(path).innerHTML = htmlContent + ' <span>printed</span>';
+}

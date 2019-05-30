@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, ipcRenderer} = require('electron')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -10,6 +10,7 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    frame: false,
     webPreferences: {
       nodeIntegration: true
     }
@@ -28,6 +29,14 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null
   })
+
+  mainWindow.webContents.on('ipc-message', function (event, eventName, path) {
+    if ('print' === eventName) {
+      console.log(path)
+      sendFileToPrint(path)
+    }
+  });
+
 }
 
 // This method will be called when Electron has finished
@@ -47,6 +56,30 @@ app.on('activate', function () {
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) createWindow()
 })
+
+function sendFileToPrint (path) {
+  printWindow = new BrowserWindow({
+    width: 400,
+    height: 400,
+    show: false
+  }); 
+
+  printWindow.loadURL(path);
+
+  printWindow.webContents.on('did-finish-load', () => {
+    let printers = printWindow.webContents.getPrinters();
+    printWindow.webContents.print({silent:false}, function (error, data) {
+      if (!error) {
+        console.log('PRINTED');
+        printWindow = null;
+      } else {
+        console.log('PROBLEM');
+      }
+    });
+    console.log('FIM do print')
+  });
+    
+}
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
