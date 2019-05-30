@@ -5,6 +5,7 @@
 const chokidar = require('chokidar');
 const $ = require('jQuery');
 
+
 // One-liner for current directory, ignores .dotfiles
 var watcher = chokidar.watch('/home/renatofilizzola/tmp/', {
     ignored: /(^|[\/\\])\../,
