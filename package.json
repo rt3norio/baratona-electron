@@ -1,12 +1,13 @@
 {
   "name": "baratona",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Baratona electron application",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "publish": "build -p always"
   },
   "repository": "https://github.com/rt3norio/baratona-electron",
   "keywords": [
@@ -18,7 +19,9 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^5.0.2",
-    "electron-builder": "^20.41.0"
+    "electron-builder": "^20.41.0",
+    "electron-log": "^3.0.6",
+    "electron-updater": "^4.0.6"
   },
   "dependencies": {
     "chokidar": "^3.0.0",
@@ -29,7 +32,14 @@
     "linux": {
       "category": "baratona",
       "target": "AppImage"
-    }
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "rt3norio",
+        "repo": "baratona-electron"
+      }
+    ]
   },
   "postinstall": "electron-builder install-app-deps"
 }
