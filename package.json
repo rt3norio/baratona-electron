@@ -1,6 +1,6 @@
 {
   "name": "baratona",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Baratona electron application",
   "main": "main.js",
   "scripts": {
